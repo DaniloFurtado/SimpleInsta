@@ -8,7 +8,7 @@ import desenv.danilo.simpleinsta.data.data.models.User
 import desenv.danilo.simpleinsta.data.ui.profile.api.ApiProfile
 import io.reactivex.Single
 
-class ApiProfileTest: ApiProfile {
+class ApiProfileTestMock: ApiProfile {
     var errorType = "Error"
     var errorMessage = "Error Message"
     var code = 200
