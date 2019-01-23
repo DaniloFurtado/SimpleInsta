@@ -1,4 +1,4 @@
-package desenv.danilo.simpleinsta.ui.profile.api
+package desenv.danilo.simpleinsta.ui.profile.api.mock
 
 import desenv.danilo.simpleinsta.data.data.apiclient.ApiResponse
 import desenv.danilo.simpleinsta.data.data.models.DataMedias

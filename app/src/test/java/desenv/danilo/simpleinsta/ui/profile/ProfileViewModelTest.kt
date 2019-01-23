@@ -4,11 +4,12 @@ import desenv.danilo.simpleinsta.data.ui.profile.ProfileRepository
 import desenv.danilo.simpleinsta.data.ui.profile.ProfileRepositoryImp
 import desenv.danilo.simpleinsta.data.ui.profile.ProfileViewModel
 import desenv.danilo.simpleinsta.data.ui.profile.TipoList
-import desenv.danilo.simpleinsta.ui.profile.api.ApiProfileTest
+import desenv.danilo.simpleinsta.ui.profile.api.mock.ApiProfileTestMock
 import io.reactivex.observers.TestObserver
 import io.reactivex.schedulers.TestScheduler
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
+import java.lang.Exception
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
@@ -19,7 +20,7 @@ class ProfileViewModelTest: Spek({
 
 
     describe("The request User profile data"){
-        val repository: ProfileRepository = ProfileRepositoryImp(ApiProfileTest())
+        val repository: ProfileRepository = ProfileRepositoryImp(ApiProfileTestMock())
         val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
 
         it("must return the user name right"){
@@ -37,7 +38,7 @@ class ProfileViewModelTest: Spek({
 
 
     describe("The request User profile data"){
-        val apiProfile = ApiProfileTest()
+        val apiProfile = ApiProfileTestMock()
         apiProfile.code = 404
         apiProfile.errorMessage = "Page not found"
         val repository: ProfileRepository = ProfileRepositoryImp(apiProfile)
@@ -54,7 +55,7 @@ class ProfileViewModelTest: Spek({
 
 
     describe("The request User posts"){
-        val api = ApiProfileTest()
+        val api = ApiProfileTestMock()
         api.fullName = "Danilo good tester"
         api.userName = "Danilo Test"
         val repository: ProfileRepository = ProfileRepositoryImp(api)
@@ -82,7 +83,7 @@ class ProfileViewModelTest: Spek({
 
 
     describe("The request User posts"){
-        val api = ApiProfileTest()
+        val api = ApiProfileTestMock()
         api.code = 500
         api.errorMessage = "Internal Server Error"
         val repository: ProfileRepository = ProfileRepositoryImp(api)
@@ -98,8 +99,43 @@ class ProfileViewModelTest: Spek({
 
     }
 
+
+    describe("Logout the app"){
+        val repository = ProfileRepositoryMock()
+        val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+
+        it("must return logout sucess, and call the metod for action the view"){
+            repository.responseLogout = true
+            profileViewModel.logout()
+            val testObserver = TestObserver<Boolean>()
+            profileViewModel.logoutSucess.subscribe(testObserver)
+            testScheduler.triggerActions()
+            testObserver.assertValue(true)
+        }
+
+        it("must return error logout, and call the metod for action the view"){
+            repository.responseLogout = false
+            profileViewModel.logout()
+            val testObserver = TestObserver<String>()
+            profileViewModel.actionError.subscribe(testObserver)
+            testScheduler.triggerActions()
+            testObserver.assertValue("Error logout")
+        }
+
+
+        it("must return error logout, and call the metod for action the view"){
+            repository.exception = Exception("Error in logout")
+            profileViewModel.logout()
+            val testObserver = TestObserver<String>()
+            profileViewModel.actionError.subscribe(testObserver)
+            testScheduler.triggerActions()
+            testObserver.assertValue("Error in logout")
+        }
+    }
+
+
     describe("User change type list of posts"){
-        val repository: ProfileRepository = ProfileRepositoryImp(ApiProfileTest())
+        val repository: ProfileRepository = ProfileRepositoryImp(ApiProfileTestMock())
         val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
 
         it("Selected type List"){

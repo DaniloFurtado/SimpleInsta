@@ -44,16 +44,18 @@ class ProfileViewModel(private val repository: ProfileRepository,
                 .getUserPosts(ApplicationApp.mToken ?: "")
                 .subscribeOn(processScheduler)
                 .observeOn(androidScheduler)
-                .subscribe({
-                    if (it.meta.code == 200) {
-                        publicationsAdapter.get()?.posts = it.data
-                        publicationsAdapter.get()?.notifyChanged()
-                    } else {
-                        actionError.onNext(it.meta.errorMessage)
-                    }
-                }, {
-                    actionError.onNext("Error retriveing User posts")
-                })
+                .subscribeBy(
+                    onSuccess= {
+                        if (it.meta.code == 200) {
+                            publicationsAdapter.get()?.posts = it.data
+                            publicationsAdapter.get()?.notifyChanged()
+                        } else {
+                            actionError.onNext(it.meta.errorMessage)
+                        }
+                    },
+                    onError = {
+                        actionError.onNext("Error retriveing User posts")
+                    })
         )
     }
 
@@ -63,19 +65,21 @@ class ProfileViewModel(private val repository: ProfileRepository,
                 .getUserData(token)
                 .subscribeOn(processScheduler)
                 .observeOn(androidScheduler)
-                .subscribe({
-                    if (it.meta.code == 200) {
-                        fullName.set(it.data.fullName)
-                        profilePicture.set(it.data.profilePicture)
-                        followers.set(it.data.counts.followedBy.toString())
-                        following.set(it.data.counts.follows.toString())
-                        mediaPosts.set(it.data.counts.media.toString())
-                    } else {
-                        actionError.onNext(it.meta.errorMessage)
-                    }
-                }, {
-                    actionError.onNext("Error retriveing User data")
-                })
+                .subscribeBy(
+                    onSuccess ={
+                        if (it.meta.code == 200) {
+                            fullName.set(it.data.fullName)
+                            profilePicture.set(it.data.profilePicture)
+                            followers.set(it.data.counts.followedBy.toString())
+                            following.set(it.data.counts.follows.toString())
+                            mediaPosts.set(it.data.counts.media.toString())
+                        } else {
+                            actionError.onNext(it.meta.errorMessage)
+                        }
+                    },
+                    onError = {
+                        actionError.onNext("Error retriveing User data")
+                    })
         )
     }
 
@@ -86,7 +90,10 @@ class ProfileViewModel(private val repository: ProfileRepository,
             .observeOn(androidScheduler)
             .subscribeBy(
                 onSuccess = {
-                    logoutSucess.onNext(true)
+                    if (it)
+                        logoutSucess.onNext(true)
+                    else
+                        actionError.onNext( "Error logout")
                 },
                 onError = {actionError.onNext(it.message ?: "Error logout")}
             )
