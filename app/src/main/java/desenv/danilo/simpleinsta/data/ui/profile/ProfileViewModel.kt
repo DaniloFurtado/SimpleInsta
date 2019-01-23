@@ -95,7 +95,11 @@ class ProfileViewModel(private val repository: ProfileRepository,
                     else
                         actionError.onNext( "Error logout")
                 },
-                onError = {actionError.onNext(it.message ?: "Error logout")}
+                onError = {
+                    val message = if(it.message != null && it.message.toString().isNotEmpty()) it.message else "Error logout"
+
+                    actionError.onNext(message!!)
+                }
             )
         )
     }

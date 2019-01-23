@@ -131,6 +131,15 @@ class ProfileViewModelTest: Spek({
             testScheduler.triggerActions()
             testObserver.assertValue("Error in logout")
         }
+
+        it("must return error logout, and call the metod for action the view, but wiht message default"){
+            repository.exception = Exception("")
+            profileViewModel.logout()
+            val testObserver = TestObserver<String>()
+            profileViewModel.actionError.subscribe(testObserver)
+            testScheduler.triggerActions()
+            testObserver.assertValue("Error logout")
+        }
     }
 
 
