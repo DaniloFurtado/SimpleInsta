@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.uber.autodispose:autodispose-lifecycle-ktx:1.1.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.uber.autodispose/autodispose-lifecycle-ktx/1.1.0/a6eb092b07650a75af3648f4f99cf0faae96a4fe/autodispose-lifecycle-ktx-1.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.uber.autodispose/autodispose-lifecycle-ktx/1.1.0/1a0cd4080d6a451c2fbf46b55e690a0a2e90daa3/autodispose-lifecycle-ktx-1.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

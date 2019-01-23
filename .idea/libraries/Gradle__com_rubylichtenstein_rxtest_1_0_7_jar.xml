@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.rubylichtenstein:rxtest:1.0.7@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rubylichtenstein/rxtest/1.0.7/43a4d1a2b4dcc14c669f4be81680a4e4b7d3dd1e/rxtest-1.0.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rubylichtenstein/rxtest/1.0.7/912ffb183a583d737a4441e86aae52326c14af97/rxtest-1.0.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

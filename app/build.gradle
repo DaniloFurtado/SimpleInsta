@@ -1,0 +1,125 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: "de.mannodermaus.android-junit5"
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "desenv.danilo.simpleinsta"
+        minSdkVersion 19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets.each {
+        it.java.srcDirs += "src/$it.name/kotlin"
+    }
+
+    testOptions {
+        junitPlatform {
+            filters {
+                engines {
+                    include 'spek2'
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+    def anko_version = '0.10.8'
+    def retrofit_version = "2.3.0"
+    def androidx_version = "1.1.0-alpha01"
+    def autodispose_version = "1.1.0"
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+
+    implementation "androidx.appcompat:appcompat:$androidx_version"
+    implementation 'androidx.core:core-ktx:1.1.0-alpha03'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.recyclerview:recyclerview:$androidx_version"
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha02'
+
+    implementation "androidx.vectordrawable:vectordrawable:$androidx_version"
+    implementation "androidx.vectordrawable:vectordrawable-animated:$androidx_version"
+
+
+    // Components Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.anko:anko:$anko_version"
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
+    implementation "org.jetbrains.anko:anko-design:$anko_version" // For SnackBars
+
+    //Arch
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
+
+    // For parse Json
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    // For images
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+    //RxAndroid, RxKotlin
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'
+    testImplementation 'com.rubylichtenstein:rxtest:1.0.7'
+
+    //Auto Disposable Uber
+    implementation "com.uber.autodispose:autodispose:$autodispose_version"
+    implementation "com.uber.autodispose:autodispose-android:$autodispose_version"
+    implementation "com.uber.autodispose:autodispose-lifecycle-ktx:$autodispose_version"
+    implementation "com.uber.autodispose:autodispose-android-archcomponents-ktx:$autodispose_version"
+
+    // Spek test
+    androidTestRuntimeOnly "de.mannodermaus.junit5:android-instrumentation-test-runner:1.3.2.0"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek_version"
+    testImplementation "org.spekframework.spek2:spek-runner-junit5:$spek_version"
+    // spek requires kotlin-reflect, omit when already in classpath
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+
+    androidTestImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    androidTestImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek_version"
+    androidTestImplementation "org.spekframework.spek2:spek-runner-junit5:$spek_version"
+}
