@@ -17,7 +17,7 @@ interface AuthenticationRepository{
     fun registerToken(token: String): Single<Boolean>
 }
 
-class AuthenticationRepositoryImp: AuthenticationRepository{
+open class AuthenticationRepositoryImp: AuthenticationRepository{
 
     override fun extractToken(url: String): Single<String> {
         return Single.create<String> {

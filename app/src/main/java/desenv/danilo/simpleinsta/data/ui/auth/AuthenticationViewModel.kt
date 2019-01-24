@@ -8,8 +8,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import java.lang.Exception
 
-class AuthenticationViewModel(private val repositoryImp: AuthenticationRepositoryImp
+class AuthenticationViewModel(private val repositoryImp: AuthenticationRepository
                               ,private val processScheduler: Scheduler
                               ,private val androidScheduler: Scheduler): ViewModel(), LifecycleObserver {
     private val disposable = CompositeDisposable()
@@ -22,21 +23,21 @@ class AuthenticationViewModel(private val repositoryImp: AuthenticationRepositor
     fun registerToken(url: String){
         disposable.add(
             repositoryImp
-            .extractToken(url)
+                .extractToken(url)
                 .doOnSubscribe { showProgress.set(true) }
-            .subscribeOn(processScheduler)
-            .flatMap { token ->
-                repositoryImp.registerToken(token)
-            }
-            .observeOn(androidScheduler)
-            .subscribe ({
-                showProgress.set(false)
-                authenticatedSucess.onNext(true)
-            },{
-                showProgress.set(false)
-                showButtonLogin.set(true)
-                publishError.onNext(it.message ?: "Error taken token")
-            }))
+                .subscribeOn(processScheduler)
+                .flatMap{ token ->
+                    repositoryImp.registerToken(token)
+                }
+                .observeOn(androidScheduler)
+                .subscribe ({
+                    showProgress.set(false)
+                    authenticatedSucess.onNext(true)
+                },{
+                    showProgress.set(false)
+                    showButtonLogin.set(true)
+                    publishError.onNext(it.message ?: "Error taken token")
+                }))
     }
 
     fun startAuthenticate(){
