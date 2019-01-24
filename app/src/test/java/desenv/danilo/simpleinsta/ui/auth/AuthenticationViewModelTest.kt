@@ -9,7 +9,7 @@ import java.lang.Exception
 import kotlin.test.assertEquals
 
 
-class AuthenticationVIewModelTest: Spek({
+class AuthenticationViewModelTest: Spek({
 
     val testScheduler = TestScheduler()
 
@@ -31,7 +31,7 @@ class AuthenticationVIewModelTest: Spek({
     describe("After authentication"){
         val repositoryMock = AuthenticationRepositoryMock()
         val authViewModel = AuthenticationViewModel(repositoryMock, testScheduler, testScheduler)
-        it("When Must hide progress an notify view sucess") {
+        it("When has been success Must hide progress and notify view of success") {
             val testObserver = TestObserver<Boolean>()
             authViewModel.authenticatedSucess.subscribe(testObserver)
             authViewModel.registerToken("")
@@ -51,12 +51,14 @@ class AuthenticationVIewModelTest: Spek({
             assertEquals(true, authViewModel.showButtonLogin.get())
         }
 
-        it("When happen a error, must notify the view hide the progress and show login button") {
+        it("When happen a error because return false, must notify the view hide the progress and show login button") {
             val testObserver = TestObserver<String>()
+            repositoryMock.responseLogout = false
+            repositoryMock.exception = null
             authViewModel.publishError.subscribe(testObserver)
             authViewModel.registerToken("")
             testScheduler.triggerActions()
-            testObserver.assertValue("Error requesting token")
+            testObserver.assertValue("Error fetching the token")
             assertEquals(false, authViewModel.showProgress.get())
             assertEquals(true, authViewModel.showButtonLogin.get())
         }

@@ -31,8 +31,14 @@ class AuthenticationViewModel(private val repositoryImp: AuthenticationRepositor
                 }
                 .observeOn(androidScheduler)
                 .subscribe ({
-                    showProgress.set(false)
-                    authenticatedSucess.onNext(true)
+                    if (it) {
+                        showProgress.set(false)
+                        authenticatedSucess.onNext(true)
+                    }else{
+                        showProgress.set(false)
+                        showButtonLogin.set(true)
+                        publishError.onNext("Error fetching the token")
+                    }
                 },{
                     showProgress.set(false)
                     showButtonLogin.set(true)
