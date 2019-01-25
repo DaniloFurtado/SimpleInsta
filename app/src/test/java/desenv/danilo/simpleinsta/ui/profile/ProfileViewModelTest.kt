@@ -1,12 +1,18 @@
 package desenv.danilo.simpleinsta.ui.profile
 
+import com.nhaarman.mockitokotlin2.doReturn
+import com.nhaarman.mockitokotlin2.mock
+import desenv.danilo.simpleinsta.data.data.apiclient.ApiResponse
+import desenv.danilo.simpleinsta.data.data.models.User
 import desenv.danilo.simpleinsta.data.ui.profile.ProfileRepository
 import desenv.danilo.simpleinsta.data.ui.profile.ProfileRepositoryImp
 import desenv.danilo.simpleinsta.data.ui.profile.ProfileViewModel
 import desenv.danilo.simpleinsta.data.ui.profile.TipoList
 import desenv.danilo.simpleinsta.ui.profile.api.mock.ApiProfileTestMock
+import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import io.reactivex.schedulers.TestScheduler
+import org.mockito.ArgumentMatchers
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
 import java.lang.Exception
@@ -20,16 +26,88 @@ class ProfileViewModelTest: Spek({
 
 
     describe("The request User profile data"){
-        val repository: ProfileRepository = ProfileRepositoryImp(ApiProfileTestMock())
-        val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+        val errorType = "Error"
+        val errorMessage = "Error Message"
+        val code = 200
+        val userName = "Danilo is Testing"
+        val fullName = "Danilo Little Test"
+        val profilePicture = "htttp://themostbeautifulphoto.com"
+        it("must return the identify the error and notify view"){
+            val repository = mock<ProfileRepository>{
+                on { getUserData(ArgumentMatchers.anyString()) } doReturn Single.just(
+                    ApiResponse(
+                        ApiResponse.Meta(errorType = errorType, code = 404, errorMessage = errorMessage),
+                        User(userName = userName, fullName = fullName, profilePicture = profilePicture),
+                        ApiResponse.Pagination()))
+            }
+
+            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            val testObserver = TestObserver<String>()
+            profileViewModel.actionError.subscribe(testObserver)
+            profileViewModel.retrieveDataProfileUser(ArgumentMatchers.anyString())
+            testScheduler.triggerActions()
+            testObserver.assertValue(errorMessage)
+
+        }
+
+        it("must return the error and notify the view it"){
+            val repository = mock<ProfileRepository>{
+                on { getUserData(ArgumentMatchers.anyString()) } doReturn Single.error(Exception("little erroe"))
+            }
+
+            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            val testObserver = TestObserver<String>()
+            profileViewModel.actionError.subscribe(testObserver)
+            profileViewModel.retrieveDataProfileUser(ArgumentMatchers.anyString())
+            testScheduler.triggerActions()
+            testObserver.assertValue("Error retriveing User data")
+
+        }
 
         it("must return the user name right"){
+            val repository = mock<ProfileRepository>{
+                on { getUserData(ArgumentMatchers.anyString()) } doReturn Single.just(
+                    ApiResponse(
+                        ApiResponse.Meta(errorType = errorType, code = code, errorMessage = errorMessage),
+                        User(userName = userName, fullName = fullName, profilePicture = profilePicture),
+                        ApiResponse.Pagination()))
+            }
+
+            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+
+            profileViewModel.retrieveDataProfileUser("123")
+            testScheduler.triggerActions()
+            assertEquals("Danilo Little Test", profileViewModel.fullName.get())
+        }
+
+        it("must return the full name right"){
+
+            val repository = mock<ProfileRepository>{
+                on { getUserData(ArgumentMatchers.anyString()) } doReturn Single.just(
+                    ApiResponse(
+                        ApiResponse.Meta(errorType = errorType, code = code, errorMessage = errorMessage),
+                        User(userName = userName, fullName = fullName, profilePicture = profilePicture),
+                        ApiResponse.Pagination()))
+            }
+
+            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+
             profileViewModel.retrieveDataProfileUser("123")
             testScheduler.triggerActions()
             assertEquals("Danilo Little Test", profileViewModel.fullName.get())
         }
 
         it("must return the url profile right"){
+            val repository = mock<ProfileRepository>{
+                on { getUserData(ArgumentMatchers.anyString()) } doReturn Single.just(
+                    ApiResponse(
+                        ApiResponse.Meta(errorType = errorType, code = code, errorMessage = errorMessage),
+                        User(userName = userName, fullName = fullName, profilePicture = profilePicture),
+                        ApiResponse.Pagination()))
+            }
+
+            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+
             profileViewModel.retrieveDataProfileUser("123")
             testScheduler.triggerActions()
             assertEquals("htttp://themostbeautifulphoto.com", profileViewModel.profilePicture.get())
@@ -38,10 +116,22 @@ class ProfileViewModelTest: Spek({
 
 
     describe("The request User profile data"){
-        val apiProfile = ApiProfileTestMock()
-        apiProfile.code = 404
-        apiProfile.errorMessage = "Page not found"
-        val repository: ProfileRepository = ProfileRepositoryImp(apiProfile)
+
+        val errorType = "Error"
+        val errorMessage = "Page not found"
+        val code = 404
+        val userName = "Danilo is Testing"
+        val fullName = "Danilo Little Test"
+        val profilePicture = "htttp://themostbeautifulphoto.com"
+
+        val repository = mock<ProfileRepository>{
+            on { getUserData(ArgumentMatchers.anyString()) } doReturn Single.just(
+                ApiResponse(
+                    ApiResponse.Meta(errorType = errorType, code = code, errorMessage = errorMessage),
+                    User(userName = userName, fullName = fullName, profilePicture = profilePicture),
+                    ApiResponse.Pagination()))
+        }
+
         val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
 
         it("must return error and message error"){
