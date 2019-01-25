@@ -3,12 +3,13 @@ package desenv.danilo.simpleinsta.ui.profile
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
 import desenv.danilo.simpleinsta.data.data.apiclient.ApiResponse
+import desenv.danilo.simpleinsta.data.data.models.DataMedias
+import desenv.danilo.simpleinsta.data.data.models.Location
+import desenv.danilo.simpleinsta.data.data.models.Medias
 import desenv.danilo.simpleinsta.data.data.models.User
 import desenv.danilo.simpleinsta.data.ui.profile.ProfileRepository
-import desenv.danilo.simpleinsta.data.ui.profile.ProfileRepositoryImp
 import desenv.danilo.simpleinsta.data.ui.profile.ProfileViewModel
 import desenv.danilo.simpleinsta.data.ui.profile.TipoList
-import desenv.danilo.simpleinsta.ui.profile.api.mock.ApiProfileTestMock
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import io.reactivex.schedulers.TestScheduler
@@ -145,10 +146,33 @@ class ProfileViewModelTest: Spek({
 
 
     describe("The request User posts"){
-        val api = ApiProfileTestMock()
-        api.fullName = "Danilo good tester"
-        api.userName = "Danilo Test"
-        val repository: ProfileRepository = ProfileRepositoryImp(api)
+
+        val fullName = "Danilo good tester"
+        val userName = "Danilo Test"
+        val errorType = "Error"
+        val errorMessage = ""
+        val code = 200
+        val media1 = DataMedias(
+            Medias(Medias.StantardResolution("https:xxxxxteste.com", 120, 120)),
+            User(userName = userName, fullName = fullName, profilePicture = "https:hhhh.com"),
+            Location("Rio De Janeiro")
+        )
+
+        val media2 = DataMedias(
+            Medias(Medias.StantardResolution("https:xxxxxteste.com", 120, 120)),
+            User(userName = userName, fullName = fullName, profilePicture = "https:hhhh.com"),
+            Location("Rio De Janeiro")
+        )
+
+        val arrayDataMedias = arrayOf(media1, media2)
+
+        val repository = mock<ProfileRepository>{
+            on { getUserPosts(ArgumentMatchers.anyString()) } doReturn Single.just(ApiResponse(
+                ApiResponse.Meta(errorType = errorType, code = code, errorMessage = errorMessage),
+                arrayDataMedias,
+                ApiResponse.Pagination()))
+        }
+
         val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
 
         it("must create a Adapter"){
@@ -168,18 +192,24 @@ class ProfileViewModelTest: Spek({
             testScheduler.triggerActions()
             assertEquals("Danilo good tester", profileViewModel.publicationsAdapter.get()?.posts!![0].user.fullName)
             assertEquals("Danilo Test", profileViewModel.publicationsAdapter.get()?.posts!![0].user.userName)
+            assertEquals("https:hhhh.com", profileViewModel.publicationsAdapter.get()?.posts!![0].user.profilePicture)
         }
     }
 
 
     describe("The request User posts"){
-        val api = ApiProfileTestMock()
-        api.code = 500
-        api.errorMessage = "Internal Server Error"
-        val repository: ProfileRepository = ProfileRepositoryImp(api)
-        val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
 
-        it("must catch error and show message"){
+        it("must catch error returned from servic and show message"){
+            val repository = mock<ProfileRepository>{
+                on{getUserPosts(ArgumentMatchers.anyString())} doReturn
+                        Single.just(ApiResponse(
+                            ApiResponse.Meta(errorType = "", code = 500, errorMessage = "Internal Server Error"),
+                            emptyArray(),
+                            ApiResponse.Pagination()))
+            }
+
+            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+
             profileViewModel.retrieveDataPotsUser()
             val testObserver = TestObserver<String>()
             profileViewModel.actionError.subscribe(testObserver)
@@ -187,15 +217,34 @@ class ProfileViewModelTest: Spek({
             testObserver.assertValue("Internal Server Error")
         }
 
+
+        it("must catch error catched in app and show message"){
+            val repository = mock<ProfileRepository>{
+                on{getUserPosts(ArgumentMatchers.anyString())} doReturn Single.error(Exception("Error parse Json"))
+            }
+
+            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+
+            profileViewModel.retrieveDataPotsUser()
+            val testObserver = TestObserver<String>()
+            profileViewModel.actionError.subscribe(testObserver)
+            testScheduler.triggerActions()
+
+            testObserver.assertValue("Error parse Json")
+        }
+
     }
 
 
     describe("Logout the app"){
-        val repository = ProfileRepositoryMock()
-        val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+
+        lateinit var profileViewModel: ProfileViewModel
 
         it("must return logout sucess, and call the metod for action the view"){
-            repository.responseLogout = true
+            val repository = mock<ProfileRepository>{
+                on{logout()} doReturn Single.just(true)
+            }
+            profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
             profileViewModel.logout()
             val testObserver = TestObserver<Boolean>()
             profileViewModel.logoutSucess.subscribe(testObserver)
@@ -204,7 +253,11 @@ class ProfileViewModelTest: Spek({
         }
 
         it("must return error logout, and call the metod for action the view"){
-            repository.responseLogout = false
+            val repository = mock<ProfileRepository>{
+                on{logout()} doReturn Single.just(false)
+            }
+            profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+
             profileViewModel.logout()
             val testObserver = TestObserver<String>()
             profileViewModel.actionError.subscribe(testObserver)
@@ -214,7 +267,11 @@ class ProfileViewModelTest: Spek({
 
 
         it("must return error logout, and call the metod for action the view"){
-            repository.exception = Exception("Error in logout")
+            val repository = mock<ProfileRepository>{
+                on{logout()} doReturn Single.error(Exception("Error in logout"))
+            }
+            profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+
             profileViewModel.logout()
             val testObserver = TestObserver<String>()
             profileViewModel.actionError.subscribe(testObserver)
@@ -223,7 +280,11 @@ class ProfileViewModelTest: Spek({
         }
 
         it("must return error logout, and call the metod for action the view, but wiht message default"){
-            repository.exception = Exception("")
+            val repository = mock<ProfileRepository>{
+                on{logout()} doReturn Single.error(Exception(""))
+            }
+            profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+
             profileViewModel.logout()
             val testObserver = TestObserver<String>()
             profileViewModel.actionError.subscribe(testObserver)
@@ -234,7 +295,7 @@ class ProfileViewModelTest: Spek({
 
 
     describe("User change type list of posts"){
-        val repository: ProfileRepository = ProfileRepositoryImp(ApiProfileTestMock())
+        val repository = mock<ProfileRepository>()
         val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
 
         it("Selected type List"){

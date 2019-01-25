@@ -54,7 +54,7 @@ class ProfileViewModel(private val repository: ProfileRepository,
                         }
                     },
                     onError = {
-                        actionError.onNext("Error retriveing User posts")
+                        actionError.onNext(it.message ?: "Error retriveing User posts")
                     })
         )
     }
