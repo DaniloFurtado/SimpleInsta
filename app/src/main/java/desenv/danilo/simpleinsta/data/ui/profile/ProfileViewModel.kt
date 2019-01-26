@@ -3,6 +3,8 @@ package desenv.danilo.simpleinsta.data.ui.profile
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
 import desenv.danilo.simpleinsta.data.application.ApplicationApp
+import desenv.danilo.simpleinsta.data.util.BaseSchedulerProvider
+import desenv.danilo.simpleinsta.data.util.SchedulerProvider
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -11,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 
 class ProfileViewModel(private val repository: ProfileRepository,
-                       private val processScheduler: Scheduler, private val androidScheduler: Scheduler
+                       private val schedulerProvider: BaseSchedulerProvider
 ): ViewModel(), LifecycleObserver {
 
     private val disposable = CompositeDisposable()
@@ -42,8 +44,8 @@ class ProfileViewModel(private val repository: ProfileRepository,
         disposable.add(
             repository
                 .getUserPosts(ApplicationApp.mToken ?: "")
-                .subscribeOn(processScheduler)
-                .observeOn(androidScheduler)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.mainThread())
                 .subscribeBy(
                     onSuccess= {
                         if (it.meta.code == 200) {
@@ -63,8 +65,8 @@ class ProfileViewModel(private val repository: ProfileRepository,
         disposable.add(
             repository
                 .getUserData(token)
-                .subscribeOn(processScheduler)
-                .observeOn(androidScheduler)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.mainThread())
                 .subscribeBy(
                     onSuccess ={
                         if (it.meta.code == 200) {
@@ -86,8 +88,8 @@ class ProfileViewModel(private val repository: ProfileRepository,
     fun logout() {
         disposable.add(repository
             .logout()
-            .subscribeOn(processScheduler)
-            .observeOn(androidScheduler)
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.mainThread())
             .subscribeBy(
                 onSuccess = {
                     if (it)
@@ -120,6 +122,6 @@ class ProfileViewModel(private val repository: ProfileRepository,
 
     class Factory(private val profileRepository: ProfileRepository)
         : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T = ProfileViewModel(profileRepository, Schedulers.io(), AndroidSchedulers.mainThread()) as T
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T = ProfileViewModel(profileRepository, SchedulerProvider()) as T
     }
 }

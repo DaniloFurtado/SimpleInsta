@@ -2,22 +2,20 @@ package desenv.danilo.simpleinsta.ui.auth
 
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
 import desenv.danilo.simpleinsta.data.ui.auth.AuthenticationRepository
 import desenv.danilo.simpleinsta.data.ui.auth.AuthenticationViewModel
+import desenv.danilo.simpleinsta.ui.SchedulerProviderTest
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
-import io.reactivex.schedulers.TestScheduler
 import org.mockito.ArgumentMatchers
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
-import java.lang.Exception
 import kotlin.test.assertEquals
 
 
 class AuthenticationViewModelTest: Spek({
 
-    val testScheduler = TestScheduler()
+    val testScheduler = SchedulerProviderTest()
 
 
     describe("Start Authentication"){
@@ -25,7 +23,7 @@ class AuthenticationViewModelTest: Spek({
         val repositoryMock = mock<AuthenticationRepository>{
             on{extractToken(ArgumentMatchers.anyString())} doReturn Single.just(urlLogin)
         }
-        val authViewModel = AuthenticationViewModel(repositoryMock, testScheduler, testScheduler)
+        val authViewModel = AuthenticationViewModel(repositoryMock, testScheduler)
         val testObserver = TestObserver<String>()
         it("Must hide the button login and send a url to view") {
             authViewModel.loadInstaPage.subscribe(testObserver)
@@ -46,7 +44,7 @@ class AuthenticationViewModelTest: Spek({
                 on { registerToken(ArgumentMatchers.anyString()) } doReturn Single.just(true)
                 on { extractToken(ArgumentMatchers.anyString()) } doReturn Single.just("")
             }
-            val authViewModel = AuthenticationViewModel(repositoryMock, testScheduler, testScheduler)
+            val authViewModel = AuthenticationViewModel(repositoryMock, testScheduler)
             val testObserver = TestObserver<Boolean>()
             authViewModel.authenticatedSucess.subscribe(testObserver)
             authViewModel.registerToken(ArgumentMatchers.anyString())
@@ -63,7 +61,7 @@ class AuthenticationViewModelTest: Spek({
                 on { extractToken(ArgumentMatchers.anyString()) } doReturn Single.just("")
             }
 
-            val authViewModel = AuthenticationViewModel(repositoryMock, testScheduler, testScheduler)
+            val authViewModel = AuthenticationViewModel(repositoryMock, testScheduler)
 
             authViewModel.publishError.subscribe(testObserver)
             authViewModel.registerToken(ArgumentMatchers.anyString())
@@ -81,7 +79,7 @@ class AuthenticationViewModelTest: Spek({
                 on { registerToken("isso vai ") } doReturn  Single.just(false)
                 on{extractToken(ArgumentMatchers.anyString())} doReturn Single.just("")
             }
-            val authViewModel = AuthenticationViewModel(repositoryMock, testScheduler, testScheduler)
+            val authViewModel = AuthenticationViewModel(repositoryMock, testScheduler)
             authViewModel.publishError.subscribe(testObserver)
             authViewModel.registerToken(ArgumentMatchers.anyString())
             testScheduler.triggerActions()

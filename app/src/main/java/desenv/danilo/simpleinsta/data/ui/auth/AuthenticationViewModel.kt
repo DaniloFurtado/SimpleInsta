@@ -2,7 +2,9 @@ package desenv.danilo.simpleinsta.data.ui.auth
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.*
+import desenv.danilo.simpleinsta.data.util.BaseSchedulerProvider
 import desenv.danilo.simpleinsta.data.util.Constants
+import desenv.danilo.simpleinsta.data.util.SchedulerProvider
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -11,8 +13,7 @@ import io.reactivex.subjects.PublishSubject
 import java.lang.Exception
 
 class AuthenticationViewModel(private val repositoryImp: AuthenticationRepository
-                              ,private val processScheduler: Scheduler
-                              ,private val androidScheduler: Scheduler): ViewModel(), LifecycleObserver {
+                              ,private val schedulerProvider: BaseSchedulerProvider): ViewModel(), LifecycleObserver {
     private val disposable = CompositeDisposable()
     val publishError = PublishSubject.create<String>()
     val authenticatedSucess = PublishSubject.create<Boolean>()
@@ -25,11 +26,11 @@ class AuthenticationViewModel(private val repositoryImp: AuthenticationRepositor
             repositoryImp
                 .extractToken(url)
                 .doOnSubscribe { showProgress.set(true) }
-                .subscribeOn(processScheduler)
+                .subscribeOn(schedulerProvider.io())
                 .flatMap{ token ->
                     repositoryImp.registerToken(token)
                 }
-                .observeOn(androidScheduler)
+                .observeOn(schedulerProvider.mainThread())
                 .subscribe ({
                     if (it) {
                         showProgress.set(false)
@@ -68,6 +69,6 @@ class AuthenticationViewModel(private val repositoryImp: AuthenticationRepositor
 
     class Factory(private val authenticationRepositoryImp: AuthenticationRepositoryImp)
         : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T = AuthenticationViewModel(authenticationRepositoryImp, Schedulers.io(), AndroidSchedulers.mainThread()) as T
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T = AuthenticationViewModel(authenticationRepositoryImp, SchedulerProvider()) as T
     }
 }

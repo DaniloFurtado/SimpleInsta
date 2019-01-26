@@ -10,20 +10,19 @@ import desenv.danilo.simpleinsta.data.data.models.User
 import desenv.danilo.simpleinsta.data.ui.profile.ProfileRepository
 import desenv.danilo.simpleinsta.data.ui.profile.ProfileViewModel
 import desenv.danilo.simpleinsta.data.ui.profile.TipoList
+import desenv.danilo.simpleinsta.ui.SchedulerProviderTest
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
-import io.reactivex.schedulers.TestScheduler
 import org.mockito.ArgumentMatchers
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.specification.describe
-import java.lang.Exception
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 
 class ProfileViewModelTest: Spek({
 
-    val testScheduler = TestScheduler()
+    val testScheduler = SchedulerProviderTest()
 
 
     describe("The request User profile data"){
@@ -42,7 +41,7 @@ class ProfileViewModelTest: Spek({
                         ApiResponse.Pagination()))
             }
 
-            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            val profileViewModel = ProfileViewModel(repository, testScheduler)
             val testObserver = TestObserver<String>()
             profileViewModel.actionError.subscribe(testObserver)
             profileViewModel.retrieveDataProfileUser(ArgumentMatchers.anyString())
@@ -56,7 +55,7 @@ class ProfileViewModelTest: Spek({
                 on { getUserData(ArgumentMatchers.anyString()) } doReturn Single.error(Exception("little erroe"))
             }
 
-            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            val profileViewModel = ProfileViewModel(repository, testScheduler)
             val testObserver = TestObserver<String>()
             profileViewModel.actionError.subscribe(testObserver)
             profileViewModel.retrieveDataProfileUser(ArgumentMatchers.anyString())
@@ -74,7 +73,7 @@ class ProfileViewModelTest: Spek({
                         ApiResponse.Pagination()))
             }
 
-            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            val profileViewModel = ProfileViewModel(repository, testScheduler)
 
             profileViewModel.retrieveDataProfileUser("123")
             testScheduler.triggerActions()
@@ -91,7 +90,7 @@ class ProfileViewModelTest: Spek({
                         ApiResponse.Pagination()))
             }
 
-            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            val profileViewModel = ProfileViewModel(repository, testScheduler)
 
             profileViewModel.retrieveDataProfileUser("123")
             testScheduler.triggerActions()
@@ -107,7 +106,7 @@ class ProfileViewModelTest: Spek({
                         ApiResponse.Pagination()))
             }
 
-            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            val profileViewModel = ProfileViewModel(repository, testScheduler)
 
             profileViewModel.retrieveDataProfileUser("123")
             testScheduler.triggerActions()
@@ -133,7 +132,7 @@ class ProfileViewModelTest: Spek({
                     ApiResponse.Pagination()))
         }
 
-        val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+        val profileViewModel = ProfileViewModel(repository, testScheduler)
 
         it("must return error and message error"){
             profileViewModel.retrieveDataProfileUser("123")
@@ -173,7 +172,7 @@ class ProfileViewModelTest: Spek({
                 ApiResponse.Pagination()))
         }
 
-        val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+        val profileViewModel = ProfileViewModel(repository, testScheduler)
 
         it("must create a Adapter"){
             profileViewModel.retrieveDataPotsUser()
@@ -208,7 +207,7 @@ class ProfileViewModelTest: Spek({
                             ApiResponse.Pagination()))
             }
 
-            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            val profileViewModel = ProfileViewModel(repository, testScheduler)
 
             profileViewModel.retrieveDataPotsUser()
             val testObserver = TestObserver<String>()
@@ -223,7 +222,7 @@ class ProfileViewModelTest: Spek({
                 on{getUserPosts(ArgumentMatchers.anyString())} doReturn Single.error(Exception("Error parse Json"))
             }
 
-            val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            val profileViewModel = ProfileViewModel(repository, testScheduler)
 
             profileViewModel.retrieveDataPotsUser()
             val testObserver = TestObserver<String>()
@@ -244,7 +243,7 @@ class ProfileViewModelTest: Spek({
             val repository = mock<ProfileRepository>{
                 on{logout()} doReturn Single.just(true)
             }
-            profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            profileViewModel = ProfileViewModel(repository, testScheduler)
             profileViewModel.logout()
             val testObserver = TestObserver<Boolean>()
             profileViewModel.logoutSucess.subscribe(testObserver)
@@ -256,7 +255,7 @@ class ProfileViewModelTest: Spek({
             val repository = mock<ProfileRepository>{
                 on{logout()} doReturn Single.just(false)
             }
-            profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            profileViewModel = ProfileViewModel(repository, testScheduler)
 
             profileViewModel.logout()
             val testObserver = TestObserver<String>()
@@ -270,7 +269,7 @@ class ProfileViewModelTest: Spek({
             val repository = mock<ProfileRepository>{
                 on{logout()} doReturn Single.error(Exception("Error in logout"))
             }
-            profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            profileViewModel = ProfileViewModel(repository, testScheduler)
 
             profileViewModel.logout()
             val testObserver = TestObserver<String>()
@@ -283,7 +282,7 @@ class ProfileViewModelTest: Spek({
             val repository = mock<ProfileRepository>{
                 on{logout()} doReturn Single.error(Exception(""))
             }
-            profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+            profileViewModel = ProfileViewModel(repository, testScheduler)
 
             profileViewModel.logout()
             val testObserver = TestObserver<String>()
@@ -296,7 +295,7 @@ class ProfileViewModelTest: Spek({
 
     describe("User change type list of posts"){
         val repository = mock<ProfileRepository>()
-        val profileViewModel = ProfileViewModel(repository, testScheduler, testScheduler)
+        val profileViewModel = ProfileViewModel(repository, testScheduler)
 
         it("Selected type List"){
             profileViewModel.changeTypeList(TipoList.LIST)
