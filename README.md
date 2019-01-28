@@ -9,5 +9,5 @@ Gson Google
 Picasso
 Retrofit
 AutoDisposable Uber
-Spek Test, RxKotlin Test
+Spek Test, Mockito for Mock Test, RxKotlin Test
 Androidx libraries
