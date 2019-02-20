@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".data.application.ApplicationApp"
+        android:name="desenv.danilo.simpleinsta.presentation.application.ApplicationApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,17 +14,17 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".data.ui.profile.ProfileActivity">
+        <activity android:name="desenv.danilo.simpleinsta.ui.profile.ProfileActivity">
         </activity>
 
-        <activity android:name=".data.ui.initial.StartActivity">
+        <activity android:name="desenv.danilo.simpleinsta.ui.initial.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".data.ui.auth.AuthenticationActivity">
+        <activity android:name="desenv.danilo.simpleinsta.ui.auth.AuthenticationActivity">
         </activity>
     </application>
 

@@ -1,6 +1,6 @@
 package desenv.danilo.simpleinsta.ui
 
-import desenv.danilo.simpleinsta.data.util.BaseSchedulerProvider
+import desenv.danilo.simpleinsta.util.BaseSchedulerProvider
 import io.reactivex.schedulers.TestScheduler
 
 class SchedulerProviderTest: BaseSchedulerProvider {

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable name="dataMediaGrid"
-                  type="desenv.danilo.simpleinsta.data.data.models.DataMedias"/>
+                  type="desenv.danilo.simpleinsta.data.models.DataMedias"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

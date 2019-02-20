@@ -2,7 +2,7 @@ package desenv.danilo.simpleinsta
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
-import desenv.danilo.simpleinsta.data.ui.auth.AuthenticationRepository
+import desenv.danilo.simpleinsta.ui.auth.AuthenticationRepository
 
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -2,8 +2,6 @@ package desenv.danilo.simpleinsta.ui.auth
 
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
-import desenv.danilo.simpleinsta.data.ui.auth.AuthenticationRepository
-import desenv.danilo.simpleinsta.data.ui.auth.AuthenticationViewModel
 import desenv.danilo.simpleinsta.ui.SchedulerProviderTest
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver

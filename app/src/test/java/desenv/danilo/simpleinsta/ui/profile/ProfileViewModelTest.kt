@@ -2,14 +2,11 @@ package desenv.danilo.simpleinsta.ui.profile
 
 import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
-import desenv.danilo.simpleinsta.data.data.apiclient.ApiResponse
-import desenv.danilo.simpleinsta.data.data.models.DataMedias
-import desenv.danilo.simpleinsta.data.data.models.Location
-import desenv.danilo.simpleinsta.data.data.models.Medias
-import desenv.danilo.simpleinsta.data.data.models.User
-import desenv.danilo.simpleinsta.data.ui.profile.ProfileRepository
-import desenv.danilo.simpleinsta.data.ui.profile.ProfileViewModel
-import desenv.danilo.simpleinsta.data.ui.profile.TipoList
+import desenv.danilo.simpleinsta.data.apiclient.ApiResponse
+import desenv.danilo.simpleinsta.data.models.DataMedias
+import desenv.danilo.simpleinsta.data.models.Location
+import desenv.danilo.simpleinsta.data.models.Medias
+import desenv.danilo.simpleinsta.data.models.User
 import desenv.danilo.simpleinsta.ui.SchedulerProviderTest
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver

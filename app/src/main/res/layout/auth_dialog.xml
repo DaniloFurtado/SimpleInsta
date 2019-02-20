@@ -4,7 +4,7 @@
     <data>
         <import type="android.view.View"/>
         <variable name="viewModelAuth"
-                  type="desenv.danilo.simpleinsta.data.ui.auth.AuthenticationViewModel"/>
+                  type="desenv.danilo.simpleinsta.ui.auth.AuthenticationViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

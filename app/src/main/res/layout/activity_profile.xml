@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="desenv.danilo.simpleinsta.data.ui.profile.TipoList"/>
+        <import type="desenv.danilo.simpleinsta.ui.profile.TipoList"/>
         <variable
             name="viewModel"
-            type="desenv.danilo.simpleinsta.data.ui.profile.ProfileViewModel"/>
+            type="desenv.danilo.simpleinsta.ui.profile.ProfileViewModel"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/container"
