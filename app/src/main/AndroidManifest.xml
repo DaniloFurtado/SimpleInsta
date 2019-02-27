@@ -14,17 +14,17 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name="desenv.danilo.simpleinsta.ui.profile.ProfileActivity">
+        <activity android:name="desenv.danilo.simpleinsta.ui.ProfileActivity">
         </activity>
 
-        <activity android:name="desenv.danilo.simpleinsta.ui.initial.StartActivity">
+        <activity android:name="desenv.danilo.simpleinsta.ui.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="desenv.danilo.simpleinsta.ui.auth.AuthenticationActivity">
+        <activity android:name="desenv.danilo.simpleinsta.ui.AuthenticationActivity">
         </activity>
     </application>
 

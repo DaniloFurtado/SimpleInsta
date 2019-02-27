@@ -15,21 +15,26 @@ abstract class SingleUseCase<T, in Params>(
 
     open fun execute(
         params: Params? = null,
-        onNext: (T) -> Unit,
+        onSuccess: (T) -> Unit,
         onError: (e: Throwable) -> Unit,
-        onComplete: (() -> Unit)? = null)
+        doOnSubscribe: (() -> Unit)? = null,
+        doOnTerminate: (() -> Unit)? = null
+    )
     {
         val single = this.buildUseCaseSingle(params)
+            .doOnSubscribe { doOnSubscribe?.invoke() }
             .subscribeOn(schedulerProvider.schedulerExecutor)
             .observeOn(schedulerProvider.schedulerPost)
-        dispose()
+            .doAfterTerminate { doOnTerminate?.invoke() }
+
         addDisposable(single.subscribe(
             { t: T ->
-                onNext.invoke(t)
+                onSuccess.invoke(t)
             },
             { error ->
                   onError.invoke(error)
             }
+
         ))
     }
 

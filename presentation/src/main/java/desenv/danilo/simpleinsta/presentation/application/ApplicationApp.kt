@@ -13,10 +13,10 @@ class ApplicationApp: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        mSelf = this
+        ApplicationApp.mSelf = this
 
         val pref = ApplicationApp.mSelf?.getSharedPreferences("pref_app_insta", Context.MODE_PRIVATE)
-        mToken = pref?.getString("token", "")
+        ApplicationApp.mToken = pref?.getString("token", "")
     }
 
 }

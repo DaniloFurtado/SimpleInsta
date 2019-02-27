@@ -4,7 +4,8 @@ import java.io.Serializable
 
 class DataMedias(var images: Medias,
                  var user: User,
-                 var location: Location): Serializable
+                 var location: Location?
+) : Serializable
 
 
 

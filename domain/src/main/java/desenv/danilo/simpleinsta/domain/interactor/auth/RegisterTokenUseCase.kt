@@ -1,21 +1,43 @@
 package desenv.danilo.simpleinsta.domain.interactor.auth
 
-import android.content.Context
+import android.net.Uri
 import desenv.danilo.simpleinsta.data.AuthRepository
-import desenv.danilo.simpleinsta.domain.CompletableUseCaseParams
+import desenv.danilo.simpleinsta.data.model.ParamRegisterToken
+import desenv.danilo.simpleinsta.domain.SingleUseCase
 import desenv.danilo.simpleinsta.domain.executor.BaseSchedulerProvider
-import io.reactivex.Completable
+import io.reactivex.Single
 
 class RegisterTokenUseCase(
     private val authRepository: AuthRepository,
     schedulerProvider: BaseSchedulerProvider
-): CompletableUseCaseParams<Context, String>(schedulerProvider) {
-    override fun buildUseCaseCompletable(param1: Context?, param2: String?): Completable {
-        return if (param2 != null && param2.isNotEmpty()
-            && param1 != null)
-            return authRepository.registerToken(param1, param2)
-        else
-            Completable.error(IllegalArgumentException("Parameter must be not null"))
+) : SingleUseCase<String, ParamRegisterToken>(schedulerProvider) {
+    override fun buildUseCaseSingle(params: ParamRegisterToken?): Single<String> {
+        return if (params != null && params.urlToken.isNotEmpty()) {
+            extractToken(params.urlToken)
+                .map { token ->
+                    authRepository.registerToken(params.context, token)
+                    token
+                }
+        } else
+            Single.error(IllegalArgumentException("Parameter must be not null"))
+    }
+
+
+    private fun extractToken(url: String): Single<String> {
+        return Single.create<String> {
+            try {
+                if (url.contains("access_token")) {
+                    val uri = Uri.parse(url)
+                    var accessToken = uri.encodedFragment ?: ""
+                    accessToken = accessToken.substring(accessToken.lastIndexOf("=") + 1)
+                    it.onSuccess(accessToken)
+                } else {
+                    it.onError(Exception("Getting error fetching acess urlToken"))
+                }
+            } catch (e: Exception) {
+                it.onError(e)
+            }
+        }
     }
 
 }

@@ -2,12 +2,9 @@ package desenv.danilo.simpleinsta.dataresource
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.provider.SyncStateContract
 import desenv.danilo.simpleinsta.data.AuthRepository
 import desenv.danilo.simpleinsta.data.util.Constants
 import io.reactivex.Completable
-import io.reactivex.Single
-import java.lang.Exception
 
 class RsAuthRepository: AuthRepository {
     @SuppressLint("ApplySharedPref")
@@ -16,7 +13,7 @@ class RsAuthRepository: AuthRepository {
             try {
                 val pref = context.getSharedPreferences(Constants.PREF_NAME, Context.MODE_PRIVATE)
                 val edit = pref!!.edit()
-                edit.putString("token", token)
+                edit.putString("urlToken", token)
                 edit.commit()
                 it.onComplete()
             }catch (e: Exception){

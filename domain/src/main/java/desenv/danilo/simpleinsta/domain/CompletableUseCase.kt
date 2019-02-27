@@ -2,7 +2,6 @@ package desenv.danilo.simpleinsta.domain
 
 import desenv.danilo.simpleinsta.domain.executor.BaseSchedulerProvider
 import io.reactivex.Completable
-import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -17,11 +16,17 @@ abstract class CompletableUseCase<in Params>(
     open fun execute(
         params: Params? = null,
         complete: (() -> Unit),
-        onError: (e: Throwable) -> Unit)
+        onError: (e: Throwable) -> Unit,
+        doOnSubscribe: (() -> Unit)? = null,
+        doOnTerminate: (() -> Unit)? = null
+    )
+
     {
         val single = this.buildUseCaseCompletable(params)
+            .doOnSubscribe { doOnSubscribe?.invoke() }
             .subscribeOn(schedulerProvider.schedulerExecutor)
             .observeOn(schedulerProvider.schedulerPost)
+            .doOnTerminate { doOnTerminate?.invoke() }
         dispose()
         addDisposable(single.subscribe(
             {
