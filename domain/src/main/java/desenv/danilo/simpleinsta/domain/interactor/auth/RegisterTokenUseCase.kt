@@ -14,9 +14,8 @@ class RegisterTokenUseCase(
     override fun buildUseCaseSingle(params: ParamRegisterToken?): Single<String> {
         return if (params != null && params.urlToken.isNotEmpty()) {
             extractToken(params.urlToken)
-                .map { token ->
+                .flatMap { token ->
                     authRepository.registerToken(params.context, token)
-                    token
                 }
         } else
             Single.error(IllegalArgumentException("Parameter must be not null"))
