@@ -1,6 +1,6 @@
 # SimpleInsta
 it's a simple example using basic instagram api. 
-Simple Instagram Using architeture MVVM
+Simple Instagram Using architeture MVVM - UseCase
 DataBinding
 RxAndroid
 RxKotlin
