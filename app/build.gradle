@@ -96,6 +96,12 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxkotlin:2.1.0'
     testImplementation 'com.rubylichtenstein:rxtest:1.0.7'
 
+    // Dagger 2
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
     //Auto Disposable Uber
     implementation "com.uber.autodispose:autodispose:$autodispose_version"
     implementation "com.uber.autodispose:autodispose-android:$autodispose_version"

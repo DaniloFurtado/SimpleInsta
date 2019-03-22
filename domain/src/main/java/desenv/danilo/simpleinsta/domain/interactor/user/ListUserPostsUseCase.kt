@@ -6,8 +6,9 @@ import desenv.danilo.simpleinsta.data.model.DataMedias
 import desenv.danilo.simpleinsta.domain.SingleUseCase
 import desenv.danilo.simpleinsta.domain.executor.BaseSchedulerProvider
 import io.reactivex.Single
+import javax.inject.Inject
 
-class ListUserPostsUseCase(
+open class ListUserPostsUseCase @Inject constructor(
     private val repository: UserRepository,
     schedulerProvider: BaseSchedulerProvider
 ): SingleUseCase<Array<DataMedias>, String>(schedulerProvider) {

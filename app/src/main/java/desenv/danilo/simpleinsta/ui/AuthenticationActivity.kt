@@ -4,10 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
 import com.uber.autodispose.lifecycle.autoDisposable
 import desenv.danilo.simpleinsta.R
 import desenv.danilo.simpleinsta.databinding.ActivityAuthDialogBinding
@@ -17,20 +15,22 @@ import desenv.danilo.simpleinsta.presentation.application.ApplicationApp
 import desenv.danilo.simpleinsta.presentation.state.StateView
 import kotlinx.android.synthetic.main.activity_auth_dialog.*
 import org.jetbrains.anko.design.snackbar
+import javax.inject.Inject
 
 
-class AuthenticationActivity : AppCompatActivity() {
+class AuthenticationActivity : BaseActivity() {
 
+    @Inject
+    lateinit var mAuthVmFactory: AuthVmFactory
 
     private val viewModel: AuthViewModel by lazy {
         ViewModelProviders.of(
             this,
-            AuthVmFactory()
+            mAuthVmFactory
         )
             .get(AuthViewModel::class.java)
     }
     lateinit var binding: ActivityAuthDialogBinding
-    private val scopeProvider by lazy { AndroidLifecycleScopeProvider.from(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

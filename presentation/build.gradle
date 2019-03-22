@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: "de.mannodermaus.android-junit5"
 
 android {
     compileSdkVersion 28
@@ -22,6 +23,20 @@ android {
         enabled = true
     }
 
+    sourceSets.each {
+        it.java.srcDirs += "src/$it.name/kotlin"
+    }
+
+    testOptions {
+        junitPlatform {
+            filters {
+                engines {
+                    include 'spek2'
+                }
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -33,7 +48,7 @@ android {
 
 dependencies {
     def anko_version = '0.10.8'
-    def androidx_version = "1.1.0-alpha01"
+    def androidx_version = "1.1.0-alpha03"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
@@ -42,16 +57,16 @@ dependencies {
 
 
     implementation "androidx.appcompat:appcompat:$androidx_version"
-    implementation 'androidx.core:core-ktx:1.1.0-alpha03'
+    implementation 'androidx.core:core-ktx:1.1.0-alpha05'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "androidx.recyclerview:recyclerview:$androidx_version"
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.1.0-alpha02'
+    implementation 'com.google.android.material:material:1.1.0-alpha04'
 
     implementation "androidx.vectordrawable:vectordrawable:$androidx_version"
-    implementation "androidx.vectordrawable:vectordrawable-animated:$androidx_version"
+    implementation "androidx.vectordrawable:vectordrawable-animated:1.1.0-alpha01"
 
     kapt "androidx.databinding:databinding-compiler:$gradle_version"
 
@@ -62,7 +77,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-design:$anko_version" // For SnackBars
 
     //Arch
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha01'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha03'
 
     //RxAndroid, RxKotlin
     api 'io.reactivex.rxjava2:rxandroid:2.1.0'
@@ -70,6 +85,22 @@ dependencies {
 
     // For images
     implementation 'com.squareup.picasso:picasso:2.5.2'
+
+    testImplementation "androidx.arch.core:core-testing:$lifecycle_version"
+    testImplementation "org.mockito:mockito-core:$mockito_core_version"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
+
+    testImplementation "org.spekframework.spek2:spek-dsl-jvm:$spek_version"
+    testImplementation "org.spekframework.spek2:spek-runner-junit5:$spek_version"
+
+    // spek requires kotlin-reflect, omit when already in classpath
+    testImplementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    // Dagger 2
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
 
     implementation project(path: ':domain')
     implementation project(path: ':dataresource')

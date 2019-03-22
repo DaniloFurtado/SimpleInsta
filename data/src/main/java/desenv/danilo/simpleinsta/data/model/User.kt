@@ -7,9 +7,9 @@ class User (
     @SerializedName("username")
     var userName: String ="",
     @SerializedName("full_name")
-    var fullName: String,
+    var fullName: String = "",
     @SerializedName("profile_picture")
-    var profilePicture: String,
+    var profilePicture: String = "",
     var bio: String ="",
     var website: String ="",
     @SerializedName("is_business")

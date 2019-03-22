@@ -6,8 +6,9 @@ import desenv.danilo.simpleinsta.data.model.ParamRegisterToken
 import desenv.danilo.simpleinsta.domain.SingleUseCase
 import desenv.danilo.simpleinsta.domain.executor.BaseSchedulerProvider
 import io.reactivex.Single
+import javax.inject.Inject
 
-class RegisterTokenUseCase(
+class RegisterTokenUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     schedulerProvider: BaseSchedulerProvider
 ) : SingleUseCase<String, ParamRegisterToken>(schedulerProvider) {

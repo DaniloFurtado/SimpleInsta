@@ -5,8 +5,9 @@ import desenv.danilo.simpleinsta.data.UserRepository
 import desenv.danilo.simpleinsta.domain.CompletableUseCase
 import desenv.danilo.simpleinsta.domain.executor.BaseSchedulerProvider
 import io.reactivex.Completable
+import javax.inject.Inject
 
-class LogoutUserUseCase(
+open class LogoutUserUseCase @Inject constructor(
     private val repository: UserRepository,
     schedulerProvider: BaseSchedulerProvider
 ) : CompletableUseCase<Context>(schedulerProvider) {

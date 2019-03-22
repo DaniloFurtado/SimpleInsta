@@ -12,8 +12,9 @@ import desenv.danilo.simpleinsta.domain.interactor.auth.RegisterTokenUseCase
 import desenv.danilo.simpleinsta.presentation.application.ApplicationApp
 import desenv.danilo.simpleinsta.presentation.state.StateView
 import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
 
-class AuthViewModel(
+class AuthViewModel @Inject constructor(
     private val registerTokenUseCase: RegisterTokenUseCase
 ): ViewModel(), LifecycleObserver{
 

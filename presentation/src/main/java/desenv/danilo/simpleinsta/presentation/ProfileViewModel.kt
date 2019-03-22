@@ -18,8 +18,9 @@ import desenv.danilo.simpleinsta.presentation.modelbind.convert.DataMediasConver
 import desenv.danilo.simpleinsta.presentation.modelbind.convert.UserConvert
 import desenv.danilo.simpleinsta.presentation.state.StateView
 import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
 
-class ProfileViewModel(
+class ProfileViewModel @Inject constructor(
     private val listUserPostsUseCase: ListUserPostsUseCase,
     private val logoutUserUseCase: LogoutUserUseCase,
     private val viewUserDetailUseCase: ViewUserDetailUseCase
@@ -81,7 +82,7 @@ class ProfileViewModel(
             })
     }
 
-    private fun updateList(it: Array<DataMedias>) {
+    fun updateList(it: Array<DataMedias>) {
         val itens = it.map { item -> DataMediasConvert.fromData(item) }
         publicationsAdapter.get()?.posts = itens.toTypedArray()
         publicationsAdapter.get()?.typeList = layoutManager.get()!!
