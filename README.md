@@ -4,6 +4,7 @@ Simple Instagram Using architeture MVVM - UseCase
 DataBinding
 RxAndroid
 RxKotlin
+Dagger2 for Dependency Injection
 Components Arch by Google, like LifeCycle
 Gson Google
 Picasso
