@@ -16,7 +16,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             app:setUrlImage="@{dataMedia.user.profilePicture}"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/ic_launcher"
             android:id="@+id/imageView3" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginLeft="16dp" android:layout_marginTop="16dp"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -45,7 +45,7 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_launcher"
+            app:srcCompat="@drawable/ic_launcher"
             app:setUrlImageNoRound="@{dataMedia.images.stantardResolution.url}"
             android:adjustViewBounds="true"
 

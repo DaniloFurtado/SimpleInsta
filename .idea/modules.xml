@@ -2,8 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SimpleInsta.iml" filepath="$PROJECT_DIR$/SimpleInsta.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimpleInsta.iml" filepath="$PROJECT_DIR$/SimpleInsta.iml" group="SimpleInsta" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="SimpleInsta/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/data/data.iml" filepath="$PROJECT_DIR$/.idea/modules/data/data.iml" group="SimpleInsta/data" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dataapi/dataapi.iml" filepath="$PROJECT_DIR$/.idea/modules/dataapi/dataapi.iml" group="SimpleInsta/dataapi" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/dataresource/dataresource.iml" filepath="$PROJECT_DIR$/.idea/modules/dataresource/dataresource.iml" group="SimpleInsta/dataresource" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/domain/domain.iml" filepath="$PROJECT_DIR$/.idea/modules/domain/domain.iml" group="SimpleInsta/domain" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/presentation/presentation.iml" filepath="$PROJECT_DIR$/.idea/modules/presentation/presentation.iml" group="SimpleInsta/presentation" />
     </modules>
   </component>
 </project>

@@ -12,7 +12,7 @@ fun ImageView.setUrlImage(url: String?){
         Picasso.with(this.context)
             .load(url)
             .transform(CircleTransform())
-            .error(R.mipmap.ic_launcher)
+            .error(R.drawable.ic_launcher)
             .placeholder(R.drawable.progress_animation)
             .into(this)
 }
@@ -22,7 +22,7 @@ fun ImageView.setUrlImageNoRound(url: String?) {
     if (url != null && url.isNotEmpty())
         Picasso.with(this.context)
             .load(url)
-            .error(R.mipmap.ic_launcher)
+            .error(R.drawable.ic_launcher)
             .into(this)
 }
 
@@ -33,7 +33,7 @@ fun ImageView.setUrlImageNoRoundToGrid(url: String?) {
             .load(url)
             .fit()
             .centerCrop()
-            .error(R.mipmap.ic_launcher)
+            .error(R.drawable.ic_launcher)
             .placeholder(R.drawable.progress_animation)
             .into(this)
 }
