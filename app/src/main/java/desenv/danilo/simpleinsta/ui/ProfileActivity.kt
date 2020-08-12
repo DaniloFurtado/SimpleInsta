@@ -31,7 +31,9 @@ class ProfileActivity : BaseActivity() {
     }
     lateinit var binding: ActivityProfileBinding
 
+
     private val MENU_ITEM_ITEM1 = 20
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
