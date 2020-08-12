@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Users\\Meta\\StudioProjectsTest\\SimpleInsta\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_auth_dialog.xml",
+        "source": "C:\\Users\\Meta\\StudioProjectsTest\\SimpleInsta\\app\\src\\main\\res\\layout\\activity_auth_dialog.xml"
+    },
+    {
+        "merged": "C:\\Users\\Meta\\StudioProjectsTest\\SimpleInsta\\app\\build\\intermediates\\incremental\\mergeDebugResources\\stripped.dir\\layout\\activity_profile.xml",
+        "source": "C:\\Users\\Meta\\StudioProjectsTest\\SimpleInsta\\app\\src\\main\\res\\layout\\activity_profile.xml"
+    }
+]

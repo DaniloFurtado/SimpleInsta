@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+                                                              
+                                                        
+    
+                                          
+                                      
+                                                                               
+           
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rootAuthLayout"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:tag="layout/activity_auth_dialog_0" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <WebView
+            android:tag="binding_1"                                                         
+            android:id="@+id/webViewAuth"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:tag="binding_2"                                                      
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar2"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:tag="binding_3"                                                         
+            android:id="@+id/loginInsta"
+            android:text="@string/login"
+                                                                        
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:theme="@style/MyButton"
+            android:textColor="@android:color/white"
+            android:shadowRadius="8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="24dp"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+         
