@@ -15,7 +15,6 @@ class AppModule {
     @Provides
     fun providesPublicationsAdapter() = PublicationsAdapter(arrayOf(), TipoList.GRID)
 
-
     @Singleton
     @Provides
     fun providesProfileVmFactory() = ProfileVmFactory()
