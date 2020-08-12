@@ -6,7 +6,6 @@ import com.squareup.picasso.Picasso
 import desenv.danilo.simpleinsta.presentation.R
 import desenv.danilo.simpleinsta.presentation.util.CircleTransform
 
-
 @BindingAdapter("app:setUrlImage")
 fun ImageView.setUrlImage(url: String?){
     if (url != null && url.isNotBlank())
@@ -18,7 +17,6 @@ fun ImageView.setUrlImage(url: String?){
             .into(this)
 }
 
-
 @BindingAdapter("app:setUrlImageNoRound")
 fun ImageView.setUrlImageNoRound(url: String?) {
     if (url != null && url.isNotEmpty())
@@ -27,7 +25,6 @@ fun ImageView.setUrlImageNoRound(url: String?) {
             .error(R.drawable.ic_launcher)
             .into(this)
 }
-
 
 @BindingAdapter("app:setUrlImageNoRoundToGrid")
 fun ImageView.setUrlImageNoRoundToGrid(url: String?) {
@@ -40,3 +37,6 @@ fun ImageView.setUrlImageNoRoundToGrid(url: String?) {
             .placeholder(R.drawable.progress_animation)
             .into(this)
 }
+
+
+
